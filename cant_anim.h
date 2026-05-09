@@ -20,6 +20,9 @@
 
 #pragma once
 
+#include "raylib.h"
+
 typedef struct CantAnim {
-    
+    Image spritesheet;
+    Rectangle hitbox;
 } cant_anim_t;

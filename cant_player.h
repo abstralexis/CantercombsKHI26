@@ -26,11 +26,15 @@
 #include "raylib.h"
 
 #include "cant_weapons.h"
+#include "cant_dmg_box.h"
+
+#define CANT_PLAYER_WIDTH  16
+#define CANT_PLAYER_HEIGHT 32
 
 typedef struct CantPlayer {
     // Coords
-    Vector2 screen_rectangle;
-    Vector2 level_rectangle;
+    Rectangle screen_rectangle;
+    Rectangle level_rectangle;
 
     // Physics
     Vector2 acceleration;
@@ -70,3 +74,33 @@ void RecalculateVelocity(cant_player_t* p_player);
  *  @param p_player The player pointer.
  */
 void ApplyPlayerPhysics(cant_player_t* p_player);
+
+/**
+ *  Change the velocity to jump and set `is_grounded` to `false`.
+ *  @param p_player Player pointer.
+ */
+void MakePlayerJump(cant_player_t* p_player);
+
+/**
+ *  Enacts damage from collisions to the player, given the hitboxes arr and the n hbs.
+ *  Returns `true` if a collision has been detected.
+ *
+ *  If you do dumb shit with `n` then whatever happens with `hitboxes` is **your fault!**
+ * 
+ *  @param p_player the player pointer
+ *  @param hitboxes the array of pointers to hitboxes.
+ *  @param n the number of hitboxes for array access.
+ */
+bool PlayerDmgCollide(cant_player_t* p_player, cant_dmg_box_t** hitboxes, size_t n);
+
+/**
+ *  Enacts damage from collisions to the player, given the colbox arr and the n cbs.
+ *  Returns `true` if a collision has been detected.
+ *
+ *  If you do dumb shit with `n` then whatever happens with `collision_boxes` is **your fault!**
+ * 
+ *  @param p_player the player pointer
+ *  @param collision_boxes the array of pointers to the rectangles for platform collision etc.
+ *  @param n the number of hitboxes for array access.
+ */
+bool PlayerFloorCollide(cant_player_t* p_player, Rectangle** collision_boxes, size_t n);

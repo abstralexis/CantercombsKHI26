@@ -33,6 +33,7 @@
  *  most of the implementation is in a different file to this.
  */
 typedef enum CantWeaponEffect {
+    CANT_WFX_NONE,
     CANT_WFX_SMITE, // CANE
     CANT_WFX_FIRE,  // SKULLCANDLE
     CANT_WFX_OILY,  // OILLAMP

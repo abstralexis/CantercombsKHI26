@@ -27,6 +27,9 @@
 // External libraries
 #include "raylib.h"
 
+#define RAYMATH_IMPLEMENTATION
+#include "raymath.h"
+
 #define ZPL_IMPLEMENTATION
 #include "zpl.h"
 
@@ -55,6 +58,7 @@ int main(void) {
     int player_x = 16;
     int player_y = 224 - 64;
     
+    // I am silly
     bool jumping = false;
     bool falling = false;
     int top_of_jump_arc = 224 - 64 - 48;
