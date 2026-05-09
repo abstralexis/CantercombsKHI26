@@ -39,5 +39,5 @@ With `raylib` installed with `brew install raylib` on my M2 Mac.
 - [ ] Inventory Bar showing current items
 
 # Licensing
-All art and music CC0 (c) 2026 Lucy Blight. Visit [Her Website](https://firefallowgames.co.uk/Home)!
+All art and music CC0 (c) 2026 Lucy Blight. Visit [Her Website](https://firefallowgames.co.uk/Home)!<br>
 All code AGPLv3 (c) 2026 Alexis Williams. Visit [Her Website](https://abstralexis.dev/)!
