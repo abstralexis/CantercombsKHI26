@@ -34,20 +34,63 @@
 
 // Code!
 
-
-
 int main(void) {
-
+    
     InitWindow(256, 224, "Cantercombs - KentHackit2026 Build");
+    SetTargetFPS(60);
+
+    
+    Image test_bg = LoadImage("./assets/testbg.png");
+    Texture2D test_bg_tex = LoadTextureFromImage(test_bg);
+
+    Image test_player_im = LoadImage("./assets/lilguy.png");
+    Texture2D test_player_tex = LoadTextureFromImage(test_player_im);
+
+    int player_x = 16;
+    int player_y = 224 - 64;
+    
+    bool jumping = false;
+    bool falling = false;
+    int top_of_jump_arc = 224 - 64 - 48;
+    
 
     while (!WindowShouldClose())
     {
+        // Epic logic
+
+        if (IsKeyDown(KEY_D)) player_x += 1;
+        if (IsKeyDown(KEY_A)) player_x -= 1;
+
+        if (IsKeyPressed(KEY_SPACE)) {
+            jumping = true;
+            player_y -= 2;
+        }
+
+        if ((jumping == true) && (falling == false)) {
+            
+            if (player_y >= top_of_jump_arc) { player_y -= 2; }
+            else { falling = true; }
+
+        } else if (falling == true) {
+            if (player_y <= 224 - 64) { player_y += 2; }
+            else {
+                falling = false;
+                jumping = false;
+                player_y = 224 - 64;
+            }
+        }
+        
+        // Draw!
+                
         BeginDrawing();
         
             ClearBackground(BLACK);
-            DrawText("Cantercombs Demo Screen", 16, 16, 16, PURPLE);
+            DrawTexture(test_bg_tex, 0, 0, WHITE);
+            DrawTexture(test_player_tex, player_x, player_y, WHITE);
+            DrawText("Cantercombs Demo Screen", 16, 16, 16, BLACK);
             
         EndDrawing();
+
     }
 
     CloseWindow();

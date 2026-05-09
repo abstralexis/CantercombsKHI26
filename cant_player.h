@@ -57,3 +57,16 @@ typedef struct CantPlayer {
  *  Create the base player struct utility function.
  */
 cant_player_t CreatePlayer(void);
+
+/**
+ *  This will recalculate the velocity to move the player in based on the acc.
+ *  @param p_player pointer to the player to modify. 
+ */
+void RecalculateVelocity(cant_player_t* p_player);
+
+/**
+ *  Apply the physics parameters to the player, changing position and applying
+ *  based on whether player is grounded etc.
+ *  @param p_player The player pointer.
+ */
+void ApplyPlayerPhysics(cant_player_t* p_player);
