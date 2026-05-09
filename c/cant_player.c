@@ -19,6 +19,7 @@
 */
 
 #include "cant_player.h"
+#include "cant_dmg_box.h"
 #include "raylib.h"
 #include <string.h>
 #include "raymath.h"
@@ -56,7 +57,9 @@ void RecalculateVelocity(cant_player_t* p_player) {
  *  @param p_player The player pointer.
  */
 void ApplyPlayerPhysics(cant_player_t* p_player) {
-    if (!p_player->is_grounded) RecalculateVelocity(p_player);
+    //if (!p_player->is_grounded) RecalculateVelocity(p_player);
+    p_player->screen_rectangle.x += p_player->velocity.x;
+    p_player->screen_rectangle.y += p_player->velocity.y;
 }
 
 /**
@@ -69,3 +72,21 @@ void MakePlayerJump(cant_player_t* p_player) {
     p_player->velocity = Vector2Add(p_player->velocity, (Vector2){0, 5});
     p_player->is_grounded = false;
 }
+
+
+bool PlayerDmgCollide(
+    cant_player_t* p_player,
+    cant_dmg_box_t** hitboxes,
+    size_t n
+) {
+    size_t p = (size_t)hitboxes;
+    Rectangle rect;
+    bool collided = false;
+    for (int i = 0; i < n; i++) {
+        p = (size_t)hitboxes + (i * sizeof(cant_dmg_box_t*));
+        rect = ((cant_dmg_box_t*)p)->hitbox;
+        collided = collided | CheckCollisionRecs(p_player->level_rectangle, rect); 
+    }
+    return collided;
+}
+

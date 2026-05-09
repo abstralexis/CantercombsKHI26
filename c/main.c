@@ -38,6 +38,9 @@
 
 // Internals
 #include "cant_dmg_box.h"
+#include "cant_player.h"
+
+#include "cant_player.c"
 
 // Code!
 
@@ -55,8 +58,7 @@ int main(void) {
     Image test_player_im = LoadImage("./assets/lilguy.png");
     Texture2D test_player_tex = LoadTextureFromImage(test_player_im);
 
-    int player_x = 16;
-    int player_y = 224 - 64;
+    cant_player_t player = CreatePlayer();
     
     // I am silly
     bool jumping = false;
@@ -68,27 +70,39 @@ int main(void) {
     {
         // Epic logic
 
-        if (IsKeyDown(KEY_D)) player_x += 1;
-        if (IsKeyDown(KEY_A)) player_x -= 1;
+        if (IsKeyPressed(KEY_D)) player.velocity =
+            Vector2Add(
+                Vector2Multiply(player.velocity, (Vector2){0, 1}),
+                (Vector2){-2, 0}
+            );
+        if (IsKeyReleased(KEY_D)) { 
+            player.velocity = Vector2Multiply(player.velocity, (Vector2){0, 1});
+        }
+
+        if (IsKeyPressed(KEY_A)) player.velocity =
+            Vector2Add(
+                Vector2Multiply(player.velocity, (Vector2){0, 1}),
+                (Vector2){2, 0}
+            );
+        if (IsKeyReleased(KEY_A)) { 
+            player.velocity = Vector2Multiply(player.velocity, (Vector2){0, 1});
+        }
 
         if (IsKeyPressed(KEY_SPACE)) {
             jumping = true;
-            player_y -= 2;
+            Vector2Add(player.velocity, (Vector2){0, -16});
         }
 
-        if ((jumping == true) && (falling == false)) {
-            
-            if (player_y >= top_of_jump_arc) { player_y -= 2; }
-            else { falling = true; }
-
-        } else if (falling == true) {
-            if (player_y <= 224 - 64) { player_y += 2; }
-            else {
-                falling = false;
-                jumping = false;
-                player_y = 224 - 64;
-            }
+        if (jumping == true) {
+            player.velocity = Vector2Add(player.velocity, (Vector2){0, 2});
         }
+
+        if (player.screen_rectangle.y + 64 == 224) {
+            jumping = false;
+            player.velocity = Vector2Multiply(player.velocity, (Vector2){1, 0});
+        }
+        
+        RecalculateVelocity(&player);
         
         // Draw!
                 
@@ -96,7 +110,12 @@ int main(void) {
         
             ClearBackground(BLACK);
             DrawTexture(test_bg_tex, 0, 0, WHITE);
-            DrawTexture(test_player_tex, player_x, player_y, WHITE);
+            DrawTexture(
+                test_player_tex,
+                player.screen_rectangle.x,
+                player.screen_rectangle.y,
+                WHITE
+            );
             DrawText("Cantercombs Demo Screen", 16, 16, 16, BLACK);
             
         EndDrawing();
