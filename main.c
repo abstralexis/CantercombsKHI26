@@ -19,6 +19,7 @@
 */
 
 // STDLIB stuff
+#include <memory.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdint.h>
@@ -32,6 +33,9 @@
 #define CUTE_C2_IMPLEMENTATION
 #include "cute_c2.h"
 
+// Internals
+#include "cant_dmg_box.h"
+
 // Code!
 
 int main(void) {
@@ -39,6 +43,8 @@ int main(void) {
     InitWindow(256, 224, "Cantercombs - KentHackit2026 Build");
     SetTargetFPS(60);
 
+    size_t max_hitboxes = 64;
+    cant_dmg_box_t** hitboxes = (cant_dmg_box_t**)malloc(sizeof(cant_dmg_box_t) * max_hitboxes);
     
     Image test_bg = LoadImage("./assets/testbg.png");
     Texture2D test_bg_tex = LoadTextureFromImage(test_bg);
@@ -94,6 +100,8 @@ int main(void) {
     }
 
     CloseWindow();
+
+    free(hitboxes);
     
     return 0;
 }

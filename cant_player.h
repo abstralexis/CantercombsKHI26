@@ -29,8 +29,8 @@
 
 typedef struct CantPlayer {
     // Coords
-    Vector2 screen_pos;
-    Vector2 level_pos;
+    Vector2 screen_rectangle;
+    Vector2 level_rectangle;
 
     // Physics
     Vector2 acceleration;
